@@ -1,7 +1,7 @@
 'use strict'
 const mongoose = require('mongoose')
 
-const lodgeSchema = mongoose.Schema({
+const turisticCenter = mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'user'
@@ -22,4 +22,4 @@ const lodgeSchema = mongoose.Schema({
     image: String
 });
 
-module.exports = mongoose.model('lodge', lodgeSchema)
+module.exports = mongoose.model('turisticCenter', turisticCenter)

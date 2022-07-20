@@ -6,9 +6,9 @@ const destinySchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'trip'
     },
-    lodge: {
+    turisticCenter: {
         type: mongoose.Schema.ObjectId,
-        ref: 'lodge'
+        ref: 'turisticCenter'
     },
     startDate: Date,
     endDate: Date

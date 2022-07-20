@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('../models/user.model');
+const Category = require('../models/category.model');
 
 const bcrypt = require('bcrypt-nodejs');
 const fs = require('fs')
@@ -34,7 +35,6 @@ exports.validateExtension = async (ext, filePath) => {
 }
 
 //* Usuarios ---------------------------------------------------------------------------------------
-
 exports.findUser = async (username) => {
     try {
         let exist = await User.findOne({ username: username }).lean();
@@ -89,12 +89,26 @@ exports.checkUpdate_OnlyAdmin = async (params) => {
     }
 }
 
-exports.alreadyUser = async (username) => {
+//* Categorías ---------------------------------------------------------------------------------------
+exports.findCategory = async (name) => {
     try {
-        let exist = User.findOne({ username: username }).lean()
+        let exist = await Category.findOne({ name: { $regex: name, $options: 'i' } });
         return exist;
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        return err;
+    }
+}
+
+exports.checkUpdateCategory = async (params) => {
+    try {
+        if (Object.entries(params).length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (err) {
+        console.log(err);
         return err;
     }
 }
