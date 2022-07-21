@@ -2,6 +2,7 @@
 
 const User = require('../models/user.model');
 const Category = require('../models/category.model');
+const Department = require('../models/department.model');
 
 const bcrypt = require('bcrypt-nodejs');
 const fs = require('fs')
@@ -101,6 +102,30 @@ exports.findCategory = async (name) => {
 }
 
 exports.checkUpdateCategory = async (params) => {
+    try {
+        if (Object.entries(params).length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+//* Departamentos ---------------------------------------------------------------------------------------
+exports.findDepartment = async (name) => {
+    try {
+        let exist = await Department.findOne({ name: { $regex: name, $options: 'i' } });
+        return exist;
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+exports.checkUpdateDepartment = async (params) => {
     try {
         if (Object.entries(params).length === 0) {
             return false;

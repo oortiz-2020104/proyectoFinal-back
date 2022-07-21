@@ -12,9 +12,11 @@ app.use(cors()); //Aceptar solicitudes
 
 const userRoutes = require('../src/routes/user.routes')
 const categoryRoutes = require('../src/routes/category.routes')
+const departmentRoutes = require('../src/routes/department.routes')
 
 //Configuración de rutas
 app.use('/user', userRoutes);
 app.use('/category', categoryRoutes);
+app.use('/department', departmentRoutes);
 
 module.exports = app;

@@ -20,7 +20,7 @@ exports.addCategory = async (req, res) => {
         if (!msg) {
             const checkCategory = await findCategory(data.name)
             if (checkCategory) {
-                return res.status(400).send({ message: 'Ya existe una categoría igual' })
+                return res.status(400).send({ message: 'Ya existe una categoría similar' })
             } else {
                 let category = new Category(data);
                 await category.save();
@@ -113,7 +113,7 @@ exports.deleteCategory = async (req, res) => {
                 return res.status(404).send({ message: 'Categoría no encontrada o ya ha sido eliminada' })
             } else {
                 const updateLodge = await turisticCenter.updateMany({ category: categoryId }, { category: findDefault.id }, { new: true })
-                return res.send({ message: 'Categoría eliminada y se actualizaron los siguientes destinos', updateLodge })
+                return res.send({ message: 'Categoría eliminada y se actualizaron los siguientes centros turísticos', updateLodge })
             }
         }
     } catch (err) {
