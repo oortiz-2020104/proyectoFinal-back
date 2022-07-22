@@ -139,7 +139,7 @@ exports.checkUpdateDepartment = async (params) => {
     }
 }
 
-//* Departamentos ---------------------------------------------------------------------------------------
+//* Centros turísticos ---------------------------------------------------------------------------------------
 exports.findTuristicCenter = async (name) => {
     try {
         let exist = await TuristicCenter.findOne({ name: { $regex: name, $options: 'i' } });
@@ -153,6 +153,20 @@ exports.findTuristicCenter = async (name) => {
 exports.checkUpdateTuristicCenter = async (params) => {
     try {
         if (Object.entries(params).length === 0 || params.user || params.popularity) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+//* Viajes ---------------------------------------------------------------------------------------
+exports.checkUpdateTrip = async (params) => {
+    try {
+        if (Object.entries(params).length === 0 || params.user || params.startDate || params.endDate) {
             return false;
         } else {
             return true;

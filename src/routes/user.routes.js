@@ -17,9 +17,8 @@ api.get('/getUsers', [midAuth.ensureAuth, midAuth.isAdmin], userController.getUs
 api.get('/getUsersContributor', [midAuth.ensureAuth, midAuth.isAdmin], userController.getUsersContributor);
 api.get('/getUser/:id', [midAuth.ensureAuth, midAuth.isAdmin], userController.getUser);
 
-api.post('/searchUser', [midAuth.ensureAuth, midAuth.isAdmin], userController.searchUser);
-
 api.put('/update_OnlyAdmin/:id', [midAuth.ensureAuth, midAuth.isAdmin], userController.update_OnlyAdmin);
+
 api.delete('/delete_OnlyAdmin/:id', [midAuth.ensureAuth, midAuth.isAdmin], userController.delete_OnlyAdmin);
 
 //* Usuarios no registrados
@@ -27,10 +26,11 @@ api.post('/login', userController.login);
 
 api.post('/register', userController.register);
 
+api.get('/getImage/:fileName', upload, userController.getImageUser);
+
 //* Usuarios registrados
 api.post('/uploadImage', [midAuth.ensureAuth, upload], userController.uploadImage);
 
-api.get('/getImage/:fileName', upload, userController.getImageUser);
 api.get('/myProfile', midAuth.ensureAuth, userController.myProfile);
 
 api.put('/update', midAuth.ensureAuth, userController.update);
