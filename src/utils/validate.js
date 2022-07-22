@@ -3,6 +3,7 @@
 const User = require('../models/user.model');
 const Category = require('../models/category.model');
 const Department = require('../models/department.model');
+const TuristicCenter = require('../models/turisticCenter.model')
 
 const bcrypt = require('bcrypt-nodejs');
 const fs = require('fs')
@@ -128,6 +129,30 @@ exports.findDepartment = async (name) => {
 exports.checkUpdateDepartment = async (params) => {
     try {
         if (Object.entries(params).length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+//* Departamentos ---------------------------------------------------------------------------------------
+exports.findTuristicCenter = async (name) => {
+    try {
+        let exist = await TuristicCenter.findOne({ name: { $regex: name, $options: 'i' } });
+        return exist;
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+exports.checkUpdateTuristicCenter = async (params) => {
+    try {
+        if (Object.entries(params).length === 0 || params.user || params.popularity) {
             return false;
         } else {
             return true;

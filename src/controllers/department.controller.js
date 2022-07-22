@@ -1,7 +1,9 @@
+'use strict';
+
 const { validateData, findDepartment, checkUpdateDepartment } = require('../utils/validate');
 
 const Department = require('../models/department.model')
-const turisticCenter = require('../models/turisticCenter.model')
+const TuristicCenter = require('../models/turisticCenter.model')
 
 exports.testDepartment = (req, res) => {
     return res.send({ message: 'Mensaje de prueba desde el controlador de departamentos' })
@@ -78,7 +80,7 @@ exports.updateDepartment = async (req, res) => {
                     return res.send({ message: 'No puede actualizar el departamento DEFAULT' })
                 } else {
                     const checkDepartment = await findDepartment(params.name)
-                    if (checkDepartment && department.name != params.name) {
+                    if (checkDepartment && department.name != params.name && checkDepartment._id != departmentId) {
                         return res.status(400).send({ message: 'Ya existe un departamento con el mimso nombre' });
                     } else {
                         const departmentUpdated = await Department.findOneAndUpdate({ _id: departmentId }, params, { new: true });
@@ -110,7 +112,7 @@ exports.deleteDepartment = async (req, res) => {
             if (!deleteDepartment) {
                 return res.status(404).send({ message: 'Departamento no encontrado o ya ha sido eliminado' })
             } else {
-                const updateLodge = await turisticCenter.updateMany({ department: departmentId }, { department: findDefault.id }, { new: true })
+                const updateLodge = await TuristicCenter.updateMany({ department: departmentId }, { department: findDefault.id }, { new: true })
                 return res.send({ message: 'Departamento eliminado y se actualizaron los siguientes centros turísticos', updateLodge })
             }
         }

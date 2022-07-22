@@ -3,7 +3,7 @@
 const { validateData, findCategory, checkUpdateCategory } = require('../utils/validate');
 
 const Category = require('../models/category.model')
-const turisticCenter = require('../models/turisticCenter.model')
+const TuristicCenter = require('../models/turisticCenter.model')
 
 exports.testCategory = (req, res) => {
     return res.send({ message: 'Mensaje de prueba desde el controlador de categorías' })
@@ -80,7 +80,7 @@ exports.updateCategory = async (req, res) => {
                     return res.send({ message: 'No puede actualizar la categoría DEFAULT' })
                 } else {
                     const checkCategory = await findCategory(params.name)
-                    if (checkCategory && category.name != params.name) {
+                    if (checkCategory && category.name != params.name && checkCategory._id != categoryId) {
                         return res.status(400).send({ message: 'Ya existe una categoría con el mimso nombre' });
                     } else {
                         const categoryUpdated = await Category.findOneAndUpdate({ _id: categoryId }, params, { new: true });
@@ -112,7 +112,7 @@ exports.deleteCategory = async (req, res) => {
             if (!deleteCategory) {
                 return res.status(404).send({ message: 'Categoría no encontrada o ya ha sido eliminada' })
             } else {
-                const updateLodge = await turisticCenter.updateMany({ category: categoryId }, { category: findDefault.id }, { new: true })
+                const updateLodge = await TuristicCenter.updateMany({ category: categoryId }, { category: findDefault.id }, { new: true })
                 return res.send({ message: 'Categoría eliminada y se actualizaron los siguientes centros turísticos', updateLodge })
             }
         }

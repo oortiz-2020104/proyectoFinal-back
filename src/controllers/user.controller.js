@@ -12,7 +12,6 @@ exports.test = (req, res) => {
 };
 
 //* Funciones admistrador ---------------------------------------------------------------------------------------
-
 exports.register_OnlyAdmin = async (req, res) => {
     try {
         const params = req.body;
@@ -174,7 +173,6 @@ exports.delete_OnlyAdmin = async (req, res) => {
 };
 
 //* Funciones usuario no registrado ---------------------------------------------------------------------------------------
-
 exports.login = async (req, res) => {
     try {
         const params = req.body;
@@ -238,8 +236,24 @@ exports.register = async (req, res) => {
     }
 };
 
-//* Funciones usuario registrado ---------------------------------------------------------------------------------------
+exports.getImageUser = async (req, res) => {
+    try {
+        const fileName = req.params.fileName;
+        const pathFile = './uploads/users/' + fileName;
 
+        const image = fs.existsSync(pathFile);
+        if (!image) {
+            return res.status(404).send({ message: 'Imagen no encontrada' });
+        } else {
+            return res.sendFile(path.resolve(pathFile));
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo la imagen' });
+    }
+}
+
+//* Funciones usuario registrado ---------------------------------------------------------------------------------------
 exports.myProfile = async (req, res) => {
     try {
         const userId = req.user.sub;
@@ -354,22 +368,5 @@ exports.uploadImage = async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(500).send({ message: 'Error subiendo imagen' });
-    }
-}
-
-exports.getImageUser = async (req, res) => {
-    try {
-        const fileName = req.params.fileName;
-        const pathFile = './uploads/users/' + fileName;
-
-        const image = fs.existsSync(pathFile);
-        if (!image) {
-            return res.status(404).send({ message: 'Imagen no encontrada' });
-        } else {
-            return res.sendFile(path.resolve(pathFile));
-        }
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send({ message: 'Error obteniendo la imagen' });
     }
 }
