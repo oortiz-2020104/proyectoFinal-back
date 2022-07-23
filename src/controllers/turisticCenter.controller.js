@@ -12,7 +12,7 @@ const path = require('path');
 
 //* Funciones de administrador ---------------------------------------------------------------------------------------
 exports.testTuristicCenter = (req, res) => {
-    return res.send({ message: 'Mensaje de prueba desde el controlador de departamentos' })
+    return res.send({ message: 'Mensaje de prueba desde el controlador de centros turísticos' })
 }
 
 //* Funciones de contribuidor ---------------------------------------------------------------------------------------

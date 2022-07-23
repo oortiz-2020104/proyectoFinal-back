@@ -15,6 +15,7 @@ const categoryRoutes = require('../src/routes/category.routes')
 const departmentRoutes = require('../src/routes/department.routes')
 const turisticCenterRoutes = require('../src/routes/turisticCenter.routes')
 const tripRoutes = require('../src/routes/trip.routes')
+const destinyRoutes = require('../src/routes/destiny.routes')
 
 //Configuración de rutas
 app.use('/user', userRoutes);
@@ -22,5 +23,6 @@ app.use('/category', categoryRoutes);
 app.use('/department', departmentRoutes);
 app.use('/turisticCenter', turisticCenterRoutes);
 app.use('/trip', tripRoutes)
+app.use('/destiny', destinyRoutes)
 
 module.exports = app;
