@@ -17,8 +17,13 @@ api.put('/updateDepartment/:idDepartment', [midAuth.ensureAuth, midAuth.isAdmin]
 
 api.delete('/deleteDepartment/:idDepartment', [midAuth.ensureAuth, midAuth.isAdmin], departmentController.deleteDepartment);
 
+//* Contribuidor
+api.get('/getDepartments_OnlyContributor', [midAuth.ensureAuth, midAuth.isContributor], departmentController.getDepartments_OnlyContributor);
+
 //* Usuarios no registrados
+api.get('/getDepartments_NoClient', departmentController.getDepartments_NoClient);
 
 //* Usuarios registrados
+api.get('/getDepartments_OnlyClient', [midAuth.ensureAuth, midAuth.isClient], departmentController.getDepartments_OnlyClient);
 
 module.exports = api;

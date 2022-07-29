@@ -167,3 +167,7 @@ exports.deleteTrip = async (req, res) => {
         return res.status(500).send({ message: 'Error eliminando el viaje' });
     }
 }
+
+//* Funciones de contribuidor ---------------------------------------------------------------------------------------
+
+//* Funciones de usuario no registrado ---------------------------------------------------------------------------------------

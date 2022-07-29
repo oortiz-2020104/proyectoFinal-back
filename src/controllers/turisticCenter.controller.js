@@ -15,6 +15,96 @@ exports.testTuristicCenter = (req, res) => {
     return res.send({ message: 'Mensaje de prueba desde el controlador de centros turísticos' })
 }
 
+exports.getTuristicsCenters_OnlyAdmin = async (req, res) => {
+    try {
+        const turisticsCenters = await TuristicCenter.find().populate('department').populate('category').populate('user')
+
+        if (!turisticsCenters) {
+            return res.status(400).send({ message: 'Centros turísticos no encontrados' });
+        } else {
+            return res.send({ messsage: 'Centros turísticos encontrados', turisticsCenters });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los centros turísticos' });
+    }
+}
+
+exports.getTuristicCenter_OnlyAdmin = async (req, res) => {
+    try {
+        const turisticCenterId = req.params.idTuristicCenter
+
+        const turisticCenter = await TuristicCenter.findOne({ _id: turisticCenterId }).lean()
+        if (!turisticCenter) {
+            return res.status(400).send({ message: 'Centro turístico no encontrado' });
+        } else {
+            return res.send({ messsage: 'Centro turístico encontrado', turisticCenter });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo el centro turístico' });
+    }
+}
+
+exports.updateTuristicCenter_OnlyAdmin = async (req, res) => {
+    try {
+        const params = req.body;
+        const turisticCenterId = req.params.idTuristicCenter;
+
+        const checkTuristicCenter = await TuristicCenter.findOne({ _id: turisticCenterId })
+        if (!checkTuristicCenter) {
+            return res.status(400).send({ message: 'No se ha encontrado el centro turístico' })
+        } else {
+            const checkUpdated = await checkUpdateTuristicCenter(params);
+            if (!checkUpdated) {
+                return res.status(400).send({ message: 'Parámetros inválidos' })
+            } else {
+                const checkTuristicCenterName = await findTuristicCenter(params.name);
+                if (checkTuristicCenterName && checkTuristicCenter.name != params.name && checkTuristicCenterName._id != turisticCenterId) {
+                    return res.status(400).send({ message: 'Ya existe un centro turístico con un nombre similar' });
+                } else {
+                    const checkDepartment = await Department.findOne({ _id: params.department })
+                    if (!checkDepartment) {
+                        return res.status(400).send({ message: 'No se ha encontrado el departamento' })
+                    } else {
+                        const checkCategory = await Category.findOne({ _id: params.category })
+                        if (!checkCategory) {
+                            return res.status(400).send({ message: 'No se ha encontrado la categoría' })
+                        } else {
+                            const updateTuristicCenter = await TuristicCenter.findOneAndUpdate({ _id: turisticCenterId }, params, { new: true }).lean();
+                            if (!updateTuristicCenter) {
+                                return res.status(400).send({ message: 'No se ha podido actualizar el centro turístico' })
+                            } else {
+                                return res.send({ message: 'Centro turístico actualizado', updateTuristicCenter })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error actualizando el centro turístico' });
+    }
+}
+
+exports.deleteTuristicCenter_OnlyAdmin = async (req, res) => {
+    try {
+        const turisticCenterId = req.params.idTuristicCenter;
+
+        const checkTuristicCenter = await TuristicCenter.findOne({ _id: turisticCenterId })
+        if (!checkTuristicCenter) {
+            return res.status(400).send({ message: 'No se ha encontrado el centro turístico o ya ha sido eliminado' })
+        } else {
+            await TuristicCenter.findOneAndDelete({ _id: turisticCenterId })
+            return res.send({ message: 'Centro turístico eliminado' })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error eliminando el centro turístico' });
+    }
+}
+
 //* Funciones de contribuidor ---------------------------------------------------------------------------------------
 exports.addTuristicCenter = async (req, res) => {
     try {
@@ -171,7 +261,7 @@ exports.deleteTuristicCenter = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(500).send({ message: 'Error actualizando el centro turístico' });
+        return res.status(500).send({ message: 'Error eliminando el centro turístico' });
     }
 }
 

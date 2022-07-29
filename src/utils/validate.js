@@ -176,3 +176,17 @@ exports.checkUpdateTrip = async (params) => {
         return err;
     }
 }
+
+//* Viajes ---------------------------------------------------------------------------------------
+exports.checkUpdateDestiny = async (params) => {
+    try {
+        if (Object.entries(params).length === 0 || params.trip || params.turisticCenter) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}

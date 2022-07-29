@@ -106,18 +106,63 @@ exports.deleteDepartment = async (req, res) => {
         const departmentId = req.params.idDepartment;
         const findDefault = await findDepartment('DEFAULT')
         if (findDefault.id === departmentId) {
-            return res.send({ message: 'No puede eliminar el departamento DEFAULT' })
+            return res.status(404).send({ message: 'No puede eliminar el departamento DEFAULT' })
         } else {
             const deleteDepartment = await Department.findOneAndDelete({ _id: departmentId });
             if (!deleteDepartment) {
                 return res.status(404).send({ message: 'Departamento no encontrado o ya ha sido eliminado' })
             } else {
                 const updateLodge = await TuristicCenter.updateMany({ department: departmentId }, { department: findDefault.id }, { new: true })
-                return res.send({ message: 'Departamento eliminado y se actualizaron los siguientes centros turísticos', updateLodge })
+                return res.send({ message: 'Departamento eliminado', updateLodge })
             }
         }
     } catch (err) {
         console.log(err);
         return res.status(500).send({ message: 'Error eliminando el departamento' });
+    }
+}
+
+//* Funciones de contribuidor ---------------------------------------------------------------------------------------
+exports.getDepartments_OnlyContributor = async (req, res) => {
+    try {
+        const departments = await Department.find().lean();
+        if (!departments) {
+            return res.status(400).send({ message: 'Departamentos no encontrados' });
+        } else {
+            return res.send({ message: 'Departamentos encontrados', departments })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los departamentos' });
+    }
+}
+
+//* Funciones de usuario registrado ---------------------------------------------------------------------------------------
+exports.getDepartments_NoClient = async (req, res) => {
+    try {
+        const departments = await Department.find().lean();
+        if (!departments) {
+            return res.status(400).send({ message: 'Departamentos no encontrados' });
+        } else {
+            return res.send({ message: 'Departamentos encontrados', departments })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los departamentos' });
+    }
+}
+
+//* Funciones de usuario no registrado ---------------------------------------------------------------------------------------
+exports.getDepartments_OnlyClient = async (req, res) => {
+    try {
+        const departments = await Department.find().lean();
+        if (!departments) {
+            return res.status(400).send({ message: 'Departamentos no encontrados' });
+        } else {
+            return res.send({ message: 'Departamentos encontrados', departments })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los departamentos' });
     }
 }

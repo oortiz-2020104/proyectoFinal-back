@@ -123,7 +123,7 @@ exports.update_OnlyAdmin = async (req, res) => {
                 } else {
                     const checkUser = await findUser(params.username);
                     if (checkUser && user.username != params.username) {
-                        return res.status(201).send({ message: 'Este nombre de usuario ya esta en uso' })
+                        return res.status(400).send({ message: 'Este nombre de usuario ya esta en uso' })
                     } else {
                         if (params.role != 'ADMIN' && params.role != 'CLIENT' && params.role != 'CONTRIBUTOR') {
                             return res.status(201).send({ message: 'El rol ingresado no es valido' })

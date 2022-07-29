@@ -11,6 +11,13 @@ const upload = connectMultiparty({ uploadDir: './uploads/turisticsCenters' });
 //* Admnistrador
 api.get('/testTuristicCenter', [midAuth.ensureAuth, midAuth.isAdmin], turisticCenterController.testTuristicCenter);
 
+api.get('/getTuristicsCenters_OnlyAdmin', [midAuth.ensureAuth, midAuth.isAdmin], turisticCenterController.getTuristicsCenters_OnlyAdmin)
+api.get('/getTuristicCenter_OnlyAdmin/:idTuristicCenter', [midAuth.ensureAuth, midAuth.isAdmin], turisticCenterController.getTuristicCenter_OnlyAdmin)
+
+api.put('/updateTuristicCenter_OnlyAdmin/:idTuristicCenter', [midAuth.ensureAuth, midAuth.isAdmin], turisticCenterController.updateTuristicCenter_OnlyAdmin)
+
+api.delete('/deleteTuristicCenter_OnlyAdmin/:idTuristicCenter', [midAuth.ensureAuth, midAuth.isAdmin], turisticCenterController.deleteTuristicCenter_OnlyAdmin)
+
 //* Contribuidor
 api.post('/addTuristicCenter', [midAuth.ensureAuth, midAuth.isContributor], turisticCenterController.addTuristicCenter)
 
@@ -26,7 +33,6 @@ api.post('/uploadImageTuristicCenter/:idTuristicCenter', [midAuth.ensureAuth, mi
 //* Usuarios registrados
 
 //* Usuarios no registrados
-
 api.get('/getImageTuristicCenter/:fileName', upload, turisticCenterController.getImageTuristicCenter);
 
 module.exports = api;

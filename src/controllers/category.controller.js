@@ -5,6 +5,7 @@ const { validateData, findCategory, checkUpdateCategory } = require('../utils/va
 const Category = require('../models/category.model')
 const TuristicCenter = require('../models/turisticCenter.model')
 
+//* Funciones de administrador ---------------------------------------------------------------------------------------
 exports.testCategory = (req, res) => {
     return res.send({ message: 'Mensaje de prueba desde el controlador de categorías' })
 }
@@ -119,5 +120,95 @@ exports.deleteCategory = async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(500).send({ message: 'Error eliminando la categoría' });
+    }
+}
+
+//* Funciones de contribuidor ---------------------------------------------------------------------------------------
+exports.getCategories_OnlyContributor = async (req, res) => {
+    try {
+        const categories = await Category.find().lean();
+        if (!categories) {
+            return res.status(400).send({ message: 'Categorías no encontradas' });
+        } else {
+            return res.send({ message: 'Categorías encontradas', categories })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo las categorías' });
+    }
+}
+
+exports.getCategory_OnlyContributor = async (req, res) => {
+    try {
+        const categoryId = req.params.idCategory;
+        const category = await Category.findOne({ _id: categoryId }).lean();
+        if (!category) {
+            return res.send({ message: 'La categoría ingresada no se ha podido encontrar' })
+        } else {
+            return res.send({ message: 'Categorías encontradas', category });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({ message: 'Error obteniendo la categoría' });
+    }
+}
+
+//* Funciones de usuario registrado ---------------------------------------------------------------------------------------
+exports.getCategories_OnlyClient = async (req, res) => {
+    try {
+        const categories = await Category.find().lean();
+        if (!categories) {
+            return res.status(400).send({ message: 'Categorías no encontradas' });
+        } else {
+            return res.send({ message: 'Categorías encontradas', categories })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo las categorías' });
+    }
+}
+
+exports.getCategory_OnlyClient = async (req, res) => {
+    try {
+        const categoryId = req.params.idCategory;
+        const category = await Category.findOne({ _id: categoryId }).lean();
+        if (!category) {
+            return res.send({ message: 'La categoría ingresada no se ha podido encontrar' })
+        } else {
+            return res.send({ message: 'Categorías encontradas', category });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({ message: 'Error obteniendo la categoría' });
+    }
+}
+
+//* Funciones de usuario no registrado ---------------------------------------------------------------------------------------
+exports.getCategories_NoClient = async (req, res) => {
+    try {
+        const categories = await Category.find().lean();
+        if (!categories) {
+            return res.status(400).send({ message: 'Categorías no encontradas' });
+        } else {
+            return res.send({ message: 'Categorías encontradas', categories })
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo las categorías' });
+    }
+}
+
+exports.getCategory_NoClient = async (req, res) => {
+    try {
+        const categoryId = req.params.idCategory;
+        const category = await Category.findOne({ _id: categoryId }).lean();
+        if (!category) {
+            return res.send({ message: 'La categoría ingresada no se ha podido encontrar' })
+        } else {
+            return res.send({ message: 'Categorías encontradas', category });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({ message: 'Error obteniendo la categoría' });
     }
 }
