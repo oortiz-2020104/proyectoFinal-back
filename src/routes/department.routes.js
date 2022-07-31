@@ -20,10 +20,10 @@ api.delete('/deleteDepartment/:idDepartment', [midAuth.ensureAuth, midAuth.isAdm
 //* Contribuidor
 api.get('/getDepartments_OnlyContributor', [midAuth.ensureAuth, midAuth.isContributor], departmentController.getDepartments_OnlyContributor);
 
-//* Usuarios no registrados
-api.get('/getDepartments_NoClient', departmentController.getDepartments_NoClient);
-
 //* Usuarios registrados
 api.get('/getDepartments_OnlyClient', [midAuth.ensureAuth, midAuth.isClient], departmentController.getDepartments_OnlyClient);
+
+//* Usuarios no registrados
+api.get('/getDepartments_NoClient', departmentController.getDepartments_NoClient);
 
 module.exports = api;

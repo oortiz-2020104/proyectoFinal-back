@@ -313,8 +313,8 @@ exports.delete = async (req, res) => {
         const userId = req.user.sub;
 
         const checkRole = await User.findOne({ _id: userId })
-        if (checkRole.role === 'ADMIN' && checkRole.role === 'HOTELADMIN') {
-            return res.status(403).send({ message: 'No puede eliminar usuarios de rol ADMIN ni HOTELADMIN' });
+        if (checkRole.role === 'ADMIN' || checkRole.role === 'CONTRIBUTOR') {
+            return res.status(403).send({ message: 'No puede eliminar tu usuario si eres rol ADMIN o CONTRIBUTOR' });
         } else {
             const deleteUser = await User.findOneAndDelete({ _id: userId });
             if (!deleteUser) {

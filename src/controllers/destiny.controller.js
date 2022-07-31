@@ -107,7 +107,11 @@ exports.getDestinies = async (req, res) => {
             if (trip.user != userId) {
                 return res.status(400).send({ message: 'Este viaje no te pertenece' });
             } else {
-                const destinies = await Destiny.find({ trip: tripId }).populate('turisticCenter').lean()
+                const destinies = await Destiny.find({ trip: tripId })
+                    .populate('turisticCenter')
+                    .populate({ path: 'turisticCenter', populate: { path: 'department' } })
+                    .populate({ path: 'turisticCenter', populate: { path: 'category' } })
+                    .lean()
                 if (!destinies) {
                     return res.status(400).send({ message: 'No se han encontrado destinos' });
                 } else {
@@ -142,8 +146,13 @@ exports.getDestiny = async (req, res) => {
                 if (!destiny) {
                     return res.status(400).send({ message: 'No se ha encontrado el destino' });
                 } else {
-                    destiny.startDate = new Date(destiny.startDate).toLocaleString()
-                    destiny.endDate = new Date(destiny.endDate).toLocaleString()
+                    destiny.startDate = new Date(destiny.startDate)
+                        .toISOString()
+                        .slice(0, new Date().toISOString().lastIndexOf(':'));
+                        
+                    destiny.endDate = new Date(destiny.endDate)
+                        .toISOString()
+                        .slice(0, new Date().toISOString().lastIndexOf(':'));
 
                     return res.send({ messsage: 'Destino encontrado', destiny });
                 }

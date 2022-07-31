@@ -14,8 +14,6 @@ api.post('/addDestiny/:idTrip/:idTuristicCenter', [midAuth.ensureAuth, midAuth.i
 api.get('/getDestinies/:idTrip', [midAuth.ensureAuth, midAuth.isClient], destinyController.getDestinies)
 api.get('/getDestiny/:idTrip/:idDestiny', [midAuth.ensureAuth, midAuth.isClient], destinyController.getDestiny)
 
-api.get('/getDestiny/:idTrip/:idDestiny', [midAuth.ensureAuth, midAuth.isClient], destinyController.getDestiny)
-
 api.put('/updateDestiny/:idTrip/:idDestiny', [midAuth.ensureAuth, midAuth.isClient], destinyController.updateDestiny)
 api.delete('/deleteDestiny/:idTrip/:idDestiny', [midAuth.ensureAuth, midAuth.isClient], destinyController.deleteDestiny)
 

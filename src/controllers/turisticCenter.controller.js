@@ -179,7 +179,7 @@ exports.getTuristicCenter = async (req, res) => {
         const userId = req.user.sub
         const turisticCenterId = req.params.idTuristicCenter
 
-        const turisticCenter = await TuristicCenter.findOne({ _id: turisticCenterId }).populate('department').populate('category')
+        const turisticCenter = await TuristicCenter.findOne({ _id: turisticCenterId }).lean()
         if (!turisticCenter) {
             return res.status(400).send({ message: 'Centro turístico no encontrado' });
         } else {
@@ -316,8 +316,37 @@ exports.uploadImageTuristicCenter = async (req, res) => {
 
 
 //* Funciones de usuario registrado ---------------------------------------------------------------------------------------
+exports.getTuristicsCenters_OnlyClient = async (req, res) => {
+    try {
+        const turisticsCenters = await TuristicCenter.find().populate('department').populate('category').populate('user')
+
+        if (!turisticsCenters) {
+            return res.status(400).send({ message: 'Centros turísticos no encontrados' });
+        } else {
+            return res.send({ messsage: 'Centros turísticos encontrados', turisticsCenters });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los centros turísticos' });
+    }
+}
 
 //* Funciones de usuario no registrado ---------------------------------------------------------------------------------------
+exports.getTuristicsCenters_NoClient = async (req, res) => {
+    try {
+        const turisticsCenters = await TuristicCenter.find().populate('department').populate('category').populate('user')
+
+        if (!turisticsCenters) {
+            return res.status(400).send({ message: 'Centros turísticos no encontrados' });
+        } else {
+            return res.send({ messsage: 'Centros turísticos encontrados', turisticsCenters });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({ message: 'Error obteniendo los centros turísticos' });
+    }
+}
+
 exports.getImageTuristicCenter = async (req, res) => {
     try {
         const fileName = req.params.fileName;

@@ -31,8 +31,10 @@ api.delete('/deleteTuristicCenter/:idTuristicCenter', [midAuth.ensureAuth, midAu
 api.post('/uploadImageTuristicCenter/:idTuristicCenter', [midAuth.ensureAuth, midAuth.isContributor, upload], turisticCenterController.uploadImageTuristicCenter);
 
 //* Usuarios registrados
+api.get('/getTuristicsCenters_OnlyClient', [midAuth.ensureAuth, midAuth.isClient], turisticCenterController.getTuristicsCenters_OnlyClient)
 
 //* Usuarios no registrados
+api.get('/getTuristicsCenters_NoClient', midAuth.ensureAuth, turisticCenterController.getTuristicsCenters_NoClient)
 api.get('/getImageTuristicCenter/:fileName', upload, turisticCenterController.getImageTuristicCenter);
 
 module.exports = api;

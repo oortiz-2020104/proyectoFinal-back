@@ -20,10 +20,11 @@ api.delete('/deleteCategory/:idCategory', [midAuth.ensureAuth, midAuth.isAdmin],
 //* Contribuidor
 api.get('/getCategories_OnlyContributor', [midAuth.ensureAuth, midAuth.isContributor], categoryController.getCategories_OnlyContributor);
 
+//* Usuarios registrados
+api.get('/getCategories_OnlyClient', [midAuth.ensureAuth, midAuth.isClient], categoryController.getCategories_OnlyClient);
+
 //* Usuarios no registrados
 api.get('/getCategories_NoClient', categoryController.getCategories_NoClient);
 
-//* Usuarios registrados
-api.get('/getCategories_OnlyClient', [midAuth.ensureAuth, midAuth.isClient], categoryController.getCategories_OnlyClient);
 
 module.exports = api;

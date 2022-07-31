@@ -114,7 +114,7 @@ exports.deleteCategory = async (req, res) => {
                 return res.status(404).send({ message: 'Categoría no encontrada o ya ha sido eliminada' })
             } else {
                 const updateLodge = await TuristicCenter.updateMany({ category: categoryId }, { category: findDefault.id }, { new: true })
-                return res.send({ message: 'Categoría eliminada y se actualizaron los siguientes centros turísticos', updateLodge })
+                return res.send({ message: 'Categoría eliminada', updateLodge })
             }
         }
     } catch (err) {

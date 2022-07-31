@@ -142,7 +142,6 @@ exports.updateTrip = async (req, res) => {
 
 exports.deleteTrip = async (req, res) => {
     try {
-        const params = req.body;
         const userId = req.user.sub
         const tripId = req.params.idTrip
 
